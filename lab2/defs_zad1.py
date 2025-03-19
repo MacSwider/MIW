@@ -1,14 +1,11 @@
-def czy_zgodne(self, reg):
-        atr, value, decision, _ = reg
-        for obj_id, obj in self.data.items():
-            if obj_id in self.obiekty_pokryte:
-                continue
+class DecisionSystem:
+    def __init__(self, data):
+        self.data = data
+        self.reguly = []
+        self.reguly_2 = []
+        self.obiekty_pokryte = set()
 
-            if obj[atr] == value and obj['d'] != decision:
-                return False
-        return True
-
-def generate_reguly(self):
+    def generate_reguly(self):
         for obj_id, obj in self.data.items():
             if obj_id in self.obiekty_pokryte:
                 continue
@@ -23,17 +20,17 @@ def generate_reguly(self):
                     self.obiekty_pokryte.add(obj_id)
                     break
 
-
-def czy_zgodne_2(self, reg):
-        (atr1, value1), (atr2, value2), decision, _ = reg
+    def czy_zgodne(self, reg):
+        atr, value, decision, _ = reg
         for obj_id, obj in self.data.items():
             if obj_id in self.obiekty_pokryte:
                 continue
-            if obj[atr1] == value1 and obj[atr2] == value2 and obj['d'] != decision:
+
+            if obj[atr] == value and obj['d'] != decision:
                 return False
         return True
 
-def generate_reguly_2(self):
+    def generate_reguly_2(self):
         pozostale = {k: v for k, v in self.data.items() if k not in self.obiekty_pokryte}
         for obj_id, obj in pozostale.items():
             atrybuty = [atr for atr in obj if atr != 'd']
@@ -49,7 +46,16 @@ def generate_reguly_2(self):
                     continue
                 break
 
-def display_reguly(self):
+    def czy_zgodne_2(self, reg):
+        (atr1, value1), (atr2, value2), decision, _ = reg
+        for obj_id, obj in self.data.items():
+            if obj_id in self.obiekty_pokryte:
+                continue
+            if obj[atr1] == value1 and obj[atr2] == value2 and obj['d'] != decision:
+                return False
+        return True
+
+    def display_reguly(self):
         print("Reguły pierwszego rzędu:")
         for reg in self.reguly:
             print(f"({reg[0]} = {reg[1]}) => (d = {reg[2]}) [obiekt {reg[3]}]")
@@ -57,7 +63,6 @@ def display_reguly(self):
         print("\nReguły drugiego rzędu:")
         for reg in self.reguly_2:
             print(f"({reg[0][0]} = {reg[0][1]}) ∧ ({reg[1][0]} = {reg[1][1]}) => (d = {reg[2]}) więc wyrzucamy [obiekt {reg[3]}]")
-
 
 def wczytaj(filename):
     data = {}
